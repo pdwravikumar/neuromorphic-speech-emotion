@@ -18,6 +18,13 @@ android {
 
     buildFeatures { compose = true }
 
+    defaultConfig {
+        // ONNX Runtime ships native .so files for four ABIs. Bundling all of
+        // them quadrupled the APK to 80 MB. Every Android phone from roughly
+        // 2017 onward is arm64-v8a; keeping only it cuts most of that weight.
+        ndk { abiFilters += listOf("arm64-v8a") }
+    }
+
     signingConfigs {
         create("release") {
             val ks = rootProject.file("keystore/release.jks")
